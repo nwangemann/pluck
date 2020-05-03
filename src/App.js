@@ -12,26 +12,33 @@ class App extends React.Component {
     this.state = {
       selectedFile: null,
       loaded: 0,
+      value: null,
     };
   }
+
   onClickHandler = (event) => {
+    event.preventDefault();
     const data = new FormData();
     data.append("file", this.state.selectedFile);
     axios
       .post("/api/video", data)
-      .then(res => { 
-        toast.success('upload success')
-        console.log(res.data)
-    })
-    .catch(err => { 
-        toast.error('upload fail')
-        console.log(err)
-    })
+      .then((res) => {
+        toast.success("upload success");
+        console.log(res.data);
+      })
+      .catch((err) => {
+        toast.error("upload fail");
+        console.log(err);
+      });
   };
   onChangeHandler = (event) => {
     this.setState({
       selectedFile: event.target.files[0],
       loaded: 0,
+    });
+    localStorage.setItem("videoFile", event.target.files[0]);
+    this.setState({
+      value: event.target.files[0],
     });
     console.log("picked up file", event.target.files[0]);
   };
@@ -84,9 +91,17 @@ class App extends React.Component {
           Upload
         </button>
         {/* <video width="320" height="240" controls>
-          <source src={require("../1588495328192-testVid.mp4")} type="video/mp4" />
+          <source src={require(`${this.state.selectedFile.files[0]}`)} type="video/mp4" />
         </video> */}
-        {/* <Video path={require('/1588495328192-testVid.mp4')}/> */}
+        <video
+          id="videoclip"
+          controls="controls"
+          poster="./pic.jpg"
+          title="Video title"
+        >
+          <source id="mp4video" src="./testVid.mp4" type="video/mp4" />
+        </video>
+        <Video path={"./testVid.mp4"} />
       </div>
     );
   }

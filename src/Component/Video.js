@@ -9,7 +9,7 @@ function Video (props){
         <Player
           playsInline
           poster="/assets/poster.png"
-          src={require(props.path)}
+          src={props.path}
         />
       </div>
   );
