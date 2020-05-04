@@ -5,6 +5,8 @@ import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+const video = require('./Component/testVid.mp4')
+
 
 class App extends React.Component {
   constructor(props) {
@@ -93,15 +95,15 @@ class App extends React.Component {
         {/* <video width="320" height="240" controls>
           <source src={require(`${this.state.selectedFile.files[0]}`)} type="video/mp4" />
         </video> */}
+        <Video path={video} />
         <video
           id="videoclip"
           controls="controls"
           poster="./pic.jpg"
           title="Video title"
         >
-          <source id="mp4video" src="./testVid.mp4" type="video/mp4" />
+          <source id="mp4video" src={video} type="video/mp4" />
         </video>
-        <Video path={"./testVid.mp4"} />
       </div>
     );
   }

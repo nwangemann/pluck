@@ -8,7 +8,7 @@ function Video (props){
       <div>
         <Player
           playsInline
-          poster="/assets/poster.png"
+          poster="./pic.jpg"
           src={props.path}
         />
       </div>
