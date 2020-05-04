@@ -1,6 +1,4 @@
 .files input {
-  outline: 2px dashed #92b0b3;
-  outline-offset: -10px;
   -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
   transition: outline-offset .15s ease-in-out, background-color .15s linear;
   padding: 120px 0px 85px 35%;
@@ -42,4 +40,104 @@
   font-weight: 600;
   text-transform: capitalize;
   text-align: center;
+}
+
+.col-md-6{
+  width: 100vw;
+  height: auto;
+  margin: 10px;
+  display: flex;  
+  justify-content: center;
+}
+
+.toastyParent{
+  display: flex;
+  justify-content: center;
+}
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.App{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.videoParent{
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+}
+
+.videoHouse{
+  display: flex;
+  width: min-content;
+  justify-content: center;
+  border: 15px outset rgb(105, 105, 105);
+  margin: 30px 30px;
+}
+
+body{
+  background-color: #2ea591;
+}
+
+.groupings{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  /* border: 3px solid black; */
+  border-radius: 15px;
+  width: 35vw; 
+  height: 40px;
+}
+
+.fileHousing{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+}
+
+.form-control{
+  border-radius: 20px;
+  margin: 50px 50px;
+  width: 30vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fileParent{
+  display: flex;
+  justify-content: center;
+}
+
+.myInput{
+  border: 3px solid white;
+  border-radius: 15px;
+  height: 20px;
+  padding: 5px;
+  box-shadow: 2px 5px 5px  white;
+}
+
+.mainHeader{
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Sacramento', cursive;
+
+  font-weight: 100;
+  font-size: 35px;
+}
+
+.logo{
+  width: 180px;
+  margin: 40px;
+  position: relative;
+  bottom: 10px;
 }

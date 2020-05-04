@@ -2,50 +2,8 @@
 require("dotenv").config();
 const express = require("express");
 const { SERVER_PORT} = process.env;
-const {postVideo} = require('./controller/controller')
-const multer = require('multer')
-const cors = require('cors');
 const app = express();
-app.use(cors())
-var http = require('http'),
-    fs = require('fs'),
-    util = require('util');
 
-http.createServer(function (req, res) {
-  var path = 'video.mp4';
-  var stat = fs.statSync(path);
-  var total = stat.size;
-  if (req.headers['range']) {
-    var range = req.headers.range;
-    var parts = range.replace(/bytes=/, "").split("-");
-    var partialstart = parts[0];
-    var partialend = parts[1];
-
-    var start = parseInt(partialstart, 10);
-    var end = partialend ? parseInt(partialend, 10) : total-1;
-    var chunksize = (end-start)+1;
-    console.log('RANGE: ' + start + ' - ' + end + ' = ' + chunksize);
-
-    var file = fs.createReadStream(path, {start: start, end: end});
-    res.writeHead(206, { 'Content-Range': 'bytes ' + start + '-' + end + '/' + total, 'Accept-Ranges': 'bytes', 'Content-Length': chunksize, 'Content-Type': 'video/mp4' });
-    file.pipe(res);
-  } else {
-    console.log('ALL: ' + total);
-    res.writeHead(200, { 'Content-Length': total, 'Content-Type': 'video/mp4' });
-    fs.createReadStream(path).pipe(res);
-  }
-}).listen(1337, '127.0.0.1');
-console.log('Server running at http://127.0.0.1:1337/');
-
-let storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-    cb(null, 'public')
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' +file.originalname )
-  }
-})
-var upload = multer({ storage: storage }).array('file')
 
 //video endpoints
 app.post('/api/video',function(req, res) {
@@ -60,6 +18,41 @@ app.post('/api/video',function(req, res) {
     })
 
 });
+
+app.get('/api/getVideo', (req, res, next) => {
+  res.status(200).send(testVid)
+})
+
+// app.get('/api/watch', function(req, res) {
+//   const path = ''
+//   const stat = fs.statSync(path)
+//   const fileSize = stat.size
+//   const range = req.headers.range
+//   if (range) {
+//     const parts = range.replace(/bytes=/, "").split("-")
+//     const start = parseInt(parts[0], 10)
+//     const end = parts[1] 
+//       ? parseInt(parts[1], 10)
+//       : fileSize-1
+//     const chunksize = (end-start)+1
+//     const file = fs.createReadStream(path, {start, end})
+//     const head = {
+//       'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+//       'Accept-Ranges': 'bytes',
+//       'Content-Length': chunksize,
+//       'Content-Type': 'video/mp4',
+//     }
+//     res.writeHead(206, head);
+//     file.pipe(res);
+//   } else {
+//     const head = {
+//       'Content-Length': fileSize,
+//       'Content-Type': 'video/mp4',
+//     }
+//     res.writeHead(200, head)
+//     fs.createReadStream(path).pipe(res)
+//   }
+// });
 
 
 

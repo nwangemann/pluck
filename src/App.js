@@ -4,9 +4,11 @@ import Video from "./Component/Video";
 import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
+import QierPlayer from "qier-player";
+import Request from "./Component/Request";
 import "react-toastify/dist/ReactToastify.css";
-const video = require('./Component/testVid.mp4')
-
+const videooo = require("./Component/testVid.mp4");
+const logo = require('./Component/music.svg.png')
 
 class App extends React.Component {
   constructor(props) {
@@ -15,8 +17,18 @@ class App extends React.Component {
       selectedFile: null,
       loaded: 0,
       value: null,
+      receivedFile: null,
     };
   }
+
+  // componentDidMount(){
+  //   axios.get('/api/watch').then(res => {
+  //     console.log('res', res)
+  //     this.setState({
+  //       receivedFile: res
+  //     })
+  //   })
+  // }
 
   onClickHandler = (event) => {
     event.preventDefault();
@@ -47,63 +59,56 @@ class App extends React.Component {
   render() {
     return (
       <div className="App">
+        <div className="mainHeader">
+          <img src={logo} className="logo" /> 
+          <h1>... pluck</h1>
+        </div>
         <div className="container">
-          <div className="row">
-            <div className="col-md-6">
-              <form method="post" action="#" id="#">
-                <div className="form-group files">
-                  <label>Upload Your File </label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    multiple=""
-                    onChange={this.onChangeHandler}
-                  />
-                </div>
-              </form>
-            </div>
-            <div className="col-md-6">
-              <form method="post" action="#" id="#">
-                <div className="form-group files color">
-                  <label>Upload Your File </label>
-                  <input
-                    type="file"
-                    className="form-control"
-                    multiple=""
-                    onChange={this.onChangeHandler}
-                  />
-                </div>
-              </form>
+          <div className="col-md-6">
+            <div className="groupings">
+              <button
+                type="button"
+                className="btn btn-success btn-block"
+                onClick={this.onClickHandler}
+              >
+                Upload
+              </button>
+              <label>Upload Your File </label>
+              <Progress max="100" color="success" value={this.state.loaded}>
+                {Math.round(this.state.loaded, 2)}%
+              </Progress>
             </div>
           </div>
         </div>
-        <div className="form-group">
-          <Progress max="100" color="success" value={this.state.loaded}>
-            {Math.round(this.state.loaded, 2)}%
-          </Progress>
+        <div className="fileHousing">
+          <div className="fileParent">
+            <input
+              type="file"
+              className="myInput"
+              multiple=""
+              onChange={this.onChangeHandler}
+            />
+          </div>
         </div>
-        <div className="form-group">
+        <div className="toastyParent">
           <ToastContainer />
         </div>
-        <button
-          type="button"
-          className="btn btn-success btn-block"
-          onClick={this.onClickHandler}
-        >
-          Upload
-        </button>
-        {/* <video width="320" height="240" controls>
-          <source src={require(`${this.state.selectedFile.files[0]}`)} type="video/mp4" />
-        </video> */}
-        <Video path={video} />
+
+        {/* <Request /> */}
+        <div className="videoParent">
+          <div className="videoHouse">
+            <QierPlayer srcOrigin={videooo} />
+          </div>
+        </div>
+        {/* <Video path={video} />
         <video
           id="videoclip"
           controls="controls"
           poster="./pic.jpg"
           title="Video title"
         >
-          <source id="mp4video" src={video} type="video/mp4" />
-        </video>
+          <source id="mp4video" src={video} type="video/mp4" /> 
+        </video> */}
       </div>
     );
   }
