@@ -1,11 +1,11 @@
 import React from "react";
 import "./App.css";
-import Video from "./Component/Video";
 import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import QierPlayer from "qier-player";
-import Request from "./Component/Request";
+import Card from "./Component/Card";
+import Product from "./Component/Product"
 import "react-toastify/dist/ReactToastify.css";
 const videooo = require("./Component/testVid.mp4");
 const logo = require('./Component/music.svg.png')
@@ -30,32 +30,32 @@ class App extends React.Component {
   //   })
   // }
 
-  onClickHandler = (event) => {
-    event.preventDefault();
-    const data = new FormData();
-    data.append("file", this.state.selectedFile);
-    axios
-      .post("/api/video", data)
-      .then((res) => {
-        toast.success("upload success");
-        console.log(res.data);
-      })
-      .catch((err) => {
-        toast.error("upload fail");
-        console.log(err);
-      });
-  };
-  onChangeHandler = (event) => {
-    this.setState({
-      selectedFile: event.target.files[0],
-      loaded: 0,
-    });
-    localStorage.setItem("videoFile", event.target.files[0]);
-    this.setState({
-      value: event.target.files[0],
-    });
-    console.log("picked up file", event.target.files[0]);
-  };
+  // onClickHandler = (event) => {
+  //   event.preventDefault();
+  //   const data = new FormData();
+  //   data.append("file", this.state.selectedFile);
+  //   axios
+  //     .post("/api/video", data)
+  //     .then((res) => {
+  //       toast.success("upload success");
+  //       console.log(res.data);
+  //     })
+  //     .catch((err) => {
+  //       toast.error("upload fail");
+  //       console.log(err);
+  //     });
+  // };
+  // onChangeHandler = (event) => {
+  //   this.setState({
+  //     selectedFile: event.target.files[0],
+  //     loaded: 0,
+  //   });
+  //   localStorage.setItem("videoFile", event.target.files[0]);
+  //   this.setState({
+  //     value: event.target.files[0],
+  //   });
+  //   console.log("picked up file", event.target.files[0]);
+  // };
   render() {
     return (
       <div className="App">
@@ -63,6 +63,9 @@ class App extends React.Component {
           <img src={logo} className="logo" /> 
           <h1>... pluck</h1>
         </div>
+
+          {/* <Card /> */}
+  
         <div className="container">
           <div className="col-md-6">
             <div className="groupings">
@@ -108,6 +111,7 @@ class App extends React.Component {
         >
           <source id="mp4video" src={video} type="video/mp4" /> 
         </video> */}
+        <Product />
       </div>
     );
   }

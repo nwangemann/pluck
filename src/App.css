@@ -141,3 +141,36 @@ body{
   position: relative;
   bottom: 10px;
 }
+
+.cardParent{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flippy-card.flippy-front{
+  height: 300px;
+  width: 400px;
+  border-radius: 50px;
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flippy-card.flippy-back{
+  height: 300px;
+  width: 400px;
+  border-radius: 50px;
+  background-color: whitesmoke;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.productParent{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 50px;
+}
