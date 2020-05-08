@@ -4,7 +4,6 @@ import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import QierPlayer from "qier-player";
-import Card from "./Component/Card";
 import Product from "./Component/Product";
 import "react-toastify/dist/ReactToastify.css";
 const videooo = require("./Component/testVid.mp4");
@@ -20,6 +19,7 @@ class App extends React.Component {
       value: null,
       receivedFile: null,
       firedVid: null,
+      videoWeb: null,
     };
   }
 
@@ -53,6 +53,8 @@ class App extends React.Component {
       this.setState({ firedVid: res.data });
     });
   };
+
+
   onChangeHandler = (event) => {
     let video = event.target.files[0];
     try {
@@ -60,7 +62,6 @@ class App extends React.Component {
     } catch (err) {
       console.error(err);
     }
-
     this.setState({
       selectedFile: event.target.files[0],
       loaded: 0,
@@ -85,11 +86,9 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="mainHeader">
-          <img src={logo} className="logo" />
+          <img src={logo} className="logo" alt="logo" />
           <h1>... pluck</h1>
         </div>
-
-        {/* <Card /> */}
 
         <div className="container">
           <div className="col-md-6">
