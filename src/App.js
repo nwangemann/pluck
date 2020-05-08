@@ -5,10 +5,12 @@ import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import QierPlayer from "qier-player";
 import Card from "./Component/Card";
-import Product from "./Component/Product"
+import Product from "./Component/Product";
 import "react-toastify/dist/ReactToastify.css";
 const videooo = require("./Component/testVid.mp4");
-const logo = require('./Component/music.svg.png')
+const logo = require("./Component/music.svg.png");
+const fs = require("fs");
+
 
 class App extends React.Component {
   constructor(props) {
@@ -18,6 +20,7 @@ class App extends React.Component {
       loaded: 0,
       value: null,
       receivedFile: null,
+      firedVid: null,
     };
   }
 
@@ -35,7 +38,7 @@ class App extends React.Component {
     const data = new FormData();
     data.append("file", this.state.selectedFile);
     axios
-      .post("/api/video", data)
+      .post("/api/video", this.state.selectedFile)
       .then((res) => {
         toast.success("upload success");
         console.log(res.data);
@@ -45,12 +48,35 @@ class App extends React.Component {
         console.log(err);
       });
   };
+  fireAway = () => {
+    axios.get('/api/getVideo').then(res => {
+      console.log('res', res)
+      this.setState({firedVid: res.data})
+    })
+  };
   onChangeHandler = (event) => {
+    let video = event.target.files[0]
+    try {
+      const data = fs.writeFileSync("/Users/files/test.txt", video);
+    } catch (err) {
+      console.error(err);
+    }
+
     this.setState({
       selectedFile: event.target.files[0],
       loaded: 0,
     });
     localStorage.setItem("videoFile", event.target.files[0]);
+    axios
+      .post("/api/video", event.target.files[0])
+      .then((res) => {
+        toast.success("upload success");
+        console.log(res.data);
+      })
+      .catch((err) => {
+        toast.error("upload fail");
+        console.log(err);
+      });
     this.setState({
       value: event.target.files[0],
     });
@@ -60,12 +86,12 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="mainHeader">
-          <img src={logo} className="logo" /> 
+          <img src={logo} className="logo" />
           <h1>... pluck</h1>
         </div>
 
-          {/* <Card /> */}
-  
+        {/* <Card /> */}
+
         <div className="container">
           <div className="col-md-6">
             <div className="groupings">
@@ -100,6 +126,12 @@ class App extends React.Component {
         <div className="videoParent">
           <div className="videoHouse">
             <QierPlayer srcOrigin={videooo} />
+          </div>
+        </div>
+        <button onClick={this.fireAway}>Fire away!</button>
+        <div className="videoParent">
+          <div className="videoHouse">
+            <QierPlayer srcOrigin={this.state.firedVid} />
           </div>
         </div>
         {/* <Video path={video} />

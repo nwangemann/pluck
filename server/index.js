@@ -3,8 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const { SERVER_PORT } = process.env;
 const app = express();
-var LocalStorage = require('node-localstorage').LocalStorage,
-localStorage = new LocalStorage('./scratch');
+
 
 
 //video endpoints
@@ -15,6 +14,17 @@ app.post('/api/video',function(req, res) {
 
 app.get('/api/getVideo', (req, res, next) => {
   res.status(200).send('response')
+  let video
+  fs.readFile('/Users/joe/test.txt', (err, data) => {
+    if (err) {
+      console.error(err)
+      return
+    }
+    console.log(data)
+    video = data
+  })
+  res.status(200).send(video)
+  
 })
 
 // app.get('/api/watch', function(req, res) {
