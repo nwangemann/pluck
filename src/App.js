@@ -4,9 +4,8 @@ import axios from "axios";
 import { Progress } from "reactstrap";
 import { ToastContainer, toast } from "react-toastify";
 import QierPlayer from "qier-player";
-import Product from "./Component/Product";
 import "react-toastify/dist/ReactToastify.css";
-const videooo = require("./Component/testVid.mp4");
+const videooo = require("./testVid.mp4");
 const logo = require("./Component/music.svg.png");
 const fs = require("fs");
 
@@ -16,7 +15,6 @@ class App extends React.Component {
     this.state = {
       selectedFile: null,
       loaded: 0,
-      value: null,
       receivedFile: null,
       firedVid: null,
       videoWeb: null,
@@ -35,52 +33,40 @@ class App extends React.Component {
   onClickHandler = (event) => {
     event.preventDefault();
     const data = new FormData();
+    let body = {
+      file: this.state.selectedFile
+    }
+    console.log('click handler', body)
     data.append("file", this.state.selectedFile);
     axios
-      .post("/api/video", this.state.selectedFile)
+      .post("/api/video", body)
       .then((res) => {
         toast.success("upload success");
-        console.log(res.data);
       })
       .catch((err) => {
         toast.error("upload fail");
         console.log(err);
       });
   };
-  fireAway = () => {
-    axios.get("/api/getVideo").then((res) => {
-      console.log("res", res);
-      this.setState({ firedVid: res.data });
-    });
-  };
-
 
   onChangeHandler = (event) => {
-    let video = event.target.files[0];
-    try {
-      const data = fs.writeFileSync("/Users/files/test.txt", video);
-    } catch (err) {
-      console.error(err);
-    }
     this.setState({
       selectedFile: event.target.files[0],
       loaded: 0,
     });
     localStorage.setItem("videoFile", event.target.files[0]);
+    let body = {
+      file: event.target.files[0]
+    }
     axios
-      .post("/api/video", event.target.files[0])
+      .post("/api/video", body)
       .then((res) => {
         toast.success("upload success");
-        console.log(res.data);
       })
       .catch((err) => {
         toast.error("upload fail");
         console.log(err);
       });
-    this.setState({
-      value: event.target.files[0],
-    });
-    console.log("picked up file", event.target.files[0]);
   };
   render() {
     return (
@@ -89,7 +75,6 @@ class App extends React.Component {
           <img src={logo} className="logo" alt="logo" />
           <h1>... pluck</h1>
         </div>
-
         <div className="container">
           <div className="col-md-6">
             <div className="groupings">
@@ -126,12 +111,6 @@ class App extends React.Component {
             <QierPlayer srcOrigin={videooo} />
           </div>
         </div>
-        <button onClick={this.fireAway}>Fire away!</button>
-        <div className="videoParent">
-          <div className="videoHouse">
-            <QierPlayer srcOrigin={this.state.firedVid} />
-          </div>
-        </div>
         {/* <Video path={video} />
         <video
           id="videoclip"
@@ -141,10 +120,10 @@ class App extends React.Component {
         >
           <source id="mp4video" src={video} type="video/mp4" /> 
         </video> */}
-        <Product />
+        {/*
         <video id="videoPlayer" controls>
-          <source src="http://localhost:4000/api/getVideo" type="video/mp4" />
-        </video>
+          <source src={videooo} type="video/mp4" />
+        </video> */}
       </div>
     );
   }
