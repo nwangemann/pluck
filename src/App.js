@@ -11,7 +11,6 @@ const videooo = require("./Component/testVid.mp4");
 const logo = require("./Component/music.svg.png");
 const fs = require("fs");
 
-
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -49,13 +48,13 @@ class App extends React.Component {
       });
   };
   fireAway = () => {
-    axios.get('/api/getVideo').then(res => {
-      console.log('res', res)
-      this.setState({firedVid: res.data})
-    })
+    axios.get("/api/getVideo").then((res) => {
+      console.log("res", res);
+      this.setState({ firedVid: res.data });
+    });
   };
   onChangeHandler = (event) => {
-    let video = event.target.files[0]
+    let video = event.target.files[0];
     try {
       const data = fs.writeFileSync("/Users/files/test.txt", video);
     } catch (err) {
@@ -144,6 +143,9 @@ class App extends React.Component {
           <source id="mp4video" src={video} type="video/mp4" /> 
         </video> */}
         <Product />
+        <video id="videoPlayer" controls>
+          <source src="http://localhost:4000/api/getVideo" type="video/mp4" />
+        </video>
       </div>
     );
   }

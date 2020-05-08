@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const { SERVER_PORT } = process.env;
 const app = express();
+const fs = require("fs");
 
 
 
@@ -13,18 +14,33 @@ app.post('/api/video',function(req, res) {
 });
 
 app.get('/api/getVideo', (req, res, next) => {
-  res.status(200).send('response')
-  let video
-  fs.readFile('/Users/joe/test.txt', (err, data) => {
-    if (err) {
-      console.error(err)
-      return
+    const stat = fs.statSync(path)
+    const fileSize = stat.size
+    const range = req.headers.range
+    if (range) {
+      const parts = range.replace(/bytes=/, "").split("-")
+      const start = parseInt(parts[0], 10)
+      const end = parts[1] 
+        ? parseInt(parts[1], 10)
+        : fileSize-1
+      const chunksize = (end-start)+1
+      const file = fs.createReadStream(path, {start, end})
+      const head = {
+        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': chunksize,
+        'Content-Type': 'video/mp4',
+      }
+      res.writeHead(206, head);
+      file.pipe(res);
+    } else {
+      const head = {
+        'Content-Length': fileSize,
+        'Content-Type': 'video/mp4',
+      }
+      res.writeHead(200, head)
+      fs.createReadStream(path).pipe(res)
     }
-    console.log(data)
-    video = data
-  })
-  res.status(200).send(video)
-  
 })
 
 // app.get('/api/watch', function(req, res) {
