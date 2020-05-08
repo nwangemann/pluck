@@ -1,26 +1,20 @@
 
 require("dotenv").config();
 const express = require("express");
-const { SERVER_PORT} = process.env;
+const { SERVER_PORT } = process.env;
 const app = express();
+var LocalStorage = require('node-localstorage').LocalStorage,
+localStorage = new LocalStorage('./scratch');
 
 
 //video endpoints
 app.post('/api/video',function(req, res) {
-    upload(req, res, function (err) {
-           if (err instanceof multer.MulterError) {
-               return res.status(500).json(err)
-           } else if (err) {
-               return res.status(500).json(err)
-           }
-      return res.status(200).send(req.file)
-
-    })
-
+    console.log('server hit', req)
+    res.status(200).send('this is the response')
 });
 
 app.get('/api/getVideo', (req, res, next) => {
-  res.status(200).send(testVid)
+  res.status(200).send('response')
 })
 
 // app.get('/api/watch', function(req, res) {

@@ -30,32 +30,32 @@ class App extends React.Component {
   //   })
   // }
 
-  // onClickHandler = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData();
-  //   data.append("file", this.state.selectedFile);
-  //   axios
-  //     .post("/api/video", data)
-  //     .then((res) => {
-  //       toast.success("upload success");
-  //       console.log(res.data);
-  //     })
-  //     .catch((err) => {
-  //       toast.error("upload fail");
-  //       console.log(err);
-  //     });
-  // };
-  // onChangeHandler = (event) => {
-  //   this.setState({
-  //     selectedFile: event.target.files[0],
-  //     loaded: 0,
-  //   });
-  //   localStorage.setItem("videoFile", event.target.files[0]);
-  //   this.setState({
-  //     value: event.target.files[0],
-  //   });
-  //   console.log("picked up file", event.target.files[0]);
-  // };
+  onClickHandler = (event) => {
+    event.preventDefault();
+    const data = new FormData();
+    data.append("file", this.state.selectedFile);
+    axios
+      .post("/api/video", data)
+      .then((res) => {
+        toast.success("upload success");
+        console.log(res.data);
+      })
+      .catch((err) => {
+        toast.error("upload fail");
+        console.log(err);
+      });
+  };
+  onChangeHandler = (event) => {
+    this.setState({
+      selectedFile: event.target.files[0],
+      loaded: 0,
+    });
+    localStorage.setItem("videoFile", event.target.files[0]);
+    this.setState({
+      value: event.target.files[0],
+    });
+    console.log("picked up file", event.target.files[0]);
+  };
   render() {
     return (
       <div className="App">
